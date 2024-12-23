@@ -1,23 +1,10 @@
 // Smooth Scrolling for Navigation
-const navLinks = document.querySelectorAll('#sidebar nav ul li a');
 
-navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
 
 // Skill Bar Animation on Scroll
 const skillBars = document.querySelectorAll('.skill .progress span');
+
+let lastScrollY = window.scrollY;
 
 const handleScroll = () => {
     skillBars.forEach(skill => {
@@ -29,19 +16,17 @@ const handleScroll = () => {
         }
     });
 
-    // Hide or Show Sidebar and Navigation Links on Scroll
     const sidebar = document.getElementById('sidebar');
-    const navLinksContainer = document.getElementById('nav-links');
-    let lastScrollY = window.scrollY;
+    const showSidebarButton = document.getElementById('show-sidebar');
 
     if (window.scrollY > lastScrollY) {
         // Scrolling down
         sidebar.classList.add('hidden');
-        navLinksContainer.classList.add('hidden');
+        showSidebarButton.classList.add('visible');
     } else {
         // Scrolling up
         sidebar.classList.remove('hidden');
-        navLinksContainer.classList.remove('hidden');
+        showSidebarButton.classList.remove('visible');
     }
 
     lastScrollY = window.scrollY;
@@ -85,8 +70,6 @@ function calcIdade(diaNascimento, mesNascimento, anoNascimento) {
     return idade;
 }
 
-
-
 // Função para atualizar os links ativos na navegação
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section');
@@ -111,7 +94,7 @@ function updateActiveNavLink() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const idade = calcIdade(26, 6, 2007);
-    document.getElementById("idade").textContent = idade;
+    document.getElementById("idade").textContent = idade + " anos.";
     
     // Chama a função para monitorar o scroll e revelar as seções
     revealOnScroll();
@@ -119,9 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Chama a função para atualizar os links ativos na navegação
     updateActiveNavLink();
 
-    document.getElementById('contact-form').addEventListener('submit', enviarFormularioContato);
-});
+    const closeSidebarButton = document.getElementById('close-sidebar');
+    const showSidebarButton = document.getElementById('show-sidebar');
+    const sidebar = document.getElementById('sidebar');
 
+    closeSidebarButton.addEventListener('click', () => {
+        sidebar.classList.add('hidden');
+        showSidebarButton.classList.remove('hidden');
+    });
+
+    showSidebarButton.addEventListener('click', () => {
+        sidebar.classList.remove('hidden');
+        showSidebarButton.classList.remove('visible');
+    });
+});
 
 // Função para revelar seções ao rolar a página
 function revealOnScroll() {
