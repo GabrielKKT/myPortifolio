@@ -107,13 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
 
     closeSidebarButton.addEventListener('click', () => {
-        sidebar.classList.add('hidden');
+         sidebar.classList.add('hidden');
+         sidebar.classList.remove('visible');
         showSidebarButton.classList.remove('hidden');
+        showSidebarButton.classList.add('visible');
     });
 
     showSidebarButton.addEventListener('click', () => {
-        sidebar.classList.remove('hidden');
         showSidebarButton.classList.remove('visible');
+       showSidebarButton.classList.add('hidden');
+         sidebar.classList.add('hidden');
+        sidebar.classList.remove('hidden');
     });
 });
 
